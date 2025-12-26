@@ -6,16 +6,18 @@ Me when I trace the ray 😳
 
 Build using CMake or use the utility scripts at `scripts/`:
 
-### Host (CPU only)
+### Configure
 
-Generate CMake context: `scripts/cmake_gen.sh`
+Compile with CUDA features: `scripts/conf_cmake.sh cuda`
+(requires CUDA toolkit to be installed; target can only be executed on systems with CUDA GPU:s)
+
+Use CPU-only substitutes: `scripts/conf_cmake.sh cpu_only`
+(can be built and executed on any system)
+
+### Build and run
+
+Build: `scripts/build.sh`
 
 Build and run: `scripts/run.sh`
-Build and run tests: `scripts/run.sh host_test`
 
-### CUDA (GPU acceleration)
-
-Generate CMake context: `scripts/cmake_gen.sh cuda`
-
-Build and run: `scripts/run.sh cuda`
-Build and run tests: `scripts/run.sh cuda_test`
+Build and run tests: `scripts/test.sh`

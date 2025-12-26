@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODE=${1:-host}
+MODE=${1:-}
 
 case $MODE in
-  host)
+  cpu_only)
     rm -f build/CMakeCache.txt
     cmake -B build/
     ;;
   cuda)
     rm -f build/CMakeCache.txt
-    cmake -DENABLE_CUDA_FEATURES=ON -B build/
+    cmake -DENABLE_CUDA=ON -B build/
     ;;
   *)
-    >&2 echo "Invalid mode: '$MODE'"
+    >&2 echo "Expected argument: 'cpu_only' or 'cuda'"
     exit 1
     ;;
 esac
