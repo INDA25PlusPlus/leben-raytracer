@@ -4,7 +4,7 @@ Me when I trace the ray 😳
 
 ## Usage
 
-Build using CMake or use the utility scripts at `scripts/`:
+Build using CMake or use the utility scripts at `scripts/`. Configure CUDA features using the `ENABLE_CUDA` flag.
 
 ### Configure
 
