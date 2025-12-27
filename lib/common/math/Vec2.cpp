@@ -66,7 +66,7 @@ Vec2 Vec2::norm() const {
 }
 
 std::string Vec2::debug_string() const {
-    return std::format("({}, {})", x, y);
+    return std::format("({:12.4f}, {:12.4f})", x, y);
 }
 
 number_t Vec2::dot(const Vec2 &v, const Vec2 &w) {

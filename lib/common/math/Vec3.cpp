@@ -17,8 +17,11 @@ const Vec3 Vec3::MIN = Vec3{std::numeric_limits<number_t>::min()};
 const Vec3 Vec3::MAX = Vec3{std::numeric_limits<number_t>::max()};
 
 Vec3::Vec3(number_t x, number_t y, number_t z) : x(x), y(y), z(z) {}
+
 Vec3::Vec3(Vec2 xy, number_t z) : x(xy.x), y(xy.y), z(z) {}
+
 Vec3::Vec3(number_t x, Vec2 yz) : x(x), y(yz.x), z(yz.y) {}
+
 Vec3::Vec3(number_t xyz) : x(xyz), y(xyz), z(xyz) {}
 
 Vec3 Vec3::operator+(const Vec3 &w) const {
@@ -81,7 +84,7 @@ Vec3 Vec3::norm() const {
 }
 
 std::string Vec3::debug_string() const {
-    return std::format("({}, {}, {})", x, y, z);
+    return std::format("({:12.4f}, {:12.4f}, {:12.4f})", x, y, z);
 }
 
 number_t Vec3::dot(const Vec3 &v, const Vec3 &w) {

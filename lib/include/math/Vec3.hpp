@@ -15,6 +15,7 @@ struct Vec3 {
 
     number_t x, y, z;
 
+    Vec3(const Vec3 &v) = default;
     Vec3(number_t x, number_t y, number_t z);
     Vec3(Vec2 xy, number_t z);
     Vec3(number_t x, Vec2 yz);

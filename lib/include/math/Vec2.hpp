@@ -13,6 +13,7 @@ struct Vec2 {
 
     number_t x, y;
 
+    Vec2(const Vec2 &v) = default;
     Vec2(number_t x, number_t y);
     explicit Vec2(number_t xy);
 
