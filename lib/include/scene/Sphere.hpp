@@ -12,5 +12,5 @@ class Sphere final : public SceneObject {
 public:
     Sphere(Vec3 pos, number_t radius, Material const &material);
 
-    bool ray_cast(Ray3 const &ray, double &min_dist, Vec3 &pos, Vec3 &normal) const override;
+    bool ray_cast(Ray3 const &ray, std::optional<HitInfo> &hit) const override;
 };

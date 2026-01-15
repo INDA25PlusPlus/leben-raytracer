@@ -3,16 +3,19 @@
 //
 
 #pragma once
+#include <optional>
+
 #include "math/Ray3.hpp"
+#include "render/HitInfo.hpp"
 #include "render/Material.hpp"
 
 class SceneObject {
+public:
     Material const &material;
 
-public:
     explicit SceneObject(Material const &material);
 
     virtual ~SceneObject() = default;
 
-    virtual bool ray_cast(Ray3 const &ray, double &min_dist, Vec3 &pos, Vec3 &normal) const = 0;
+    virtual bool ray_cast(Ray3 const &ray, std::optional<HitInfo> &hit) const = 0;
 };

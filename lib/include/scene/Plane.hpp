@@ -7,10 +7,9 @@
 
 class Plane final : public SceneObject {
     Vec3 const pos;
-    number_t const dist;
 
 public:
-    Plane(Vec3 pos, number_t dist, Material const &material);
+    Plane(Vec3 pos, Material const &material);
 
-    bool ray_cast(Ray3 const &ray, double &min_dist, Vec3 &pos, Vec3 &normal) const override;
+    bool ray_cast(Ray3 const &ray, std::optional<HitInfo> &hit) const override;
 };
