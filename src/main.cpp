@@ -14,13 +14,21 @@ int main() {
     Material light_mat {
         {.8, .8, .8}, 1.,
         {0., 0., 0.}, {1., 1., 1.}, .8, 0.};
+    Material matte_mat {
+        {.0, .0, .0}, 0.,
+        {0., 1., 1.}, {0., 0., 0.}, 1., 1.};
     Material red_mat {
-        {1., 0., 0.}, 0.1,
+        {0., 0., 0.}, 0.,
         {1., 0., 0.}, {1., 0., 0.}, .6, .8};
+    Material yellow_mat {
+            {0., 0., 0.}, 0.,
+            {1., 1., 0.}, {1., 1., 0.}, .6, .8};
 
     Scene scene;
-    scene.add_object(std::make_unique<Plane>(Vec3::Z, light_mat));
-    scene.add_object(std::make_unique<Sphere>(Vec3::Z * 3, 1, red_mat));
+    scene.add_object(std::make_unique<Plane>(Vec3::Z * 100, light_mat));
+    scene.add_object(std::make_unique<Plane>(Vec3::Z, matte_mat));
+    scene.add_object(std::make_unique<Sphere>(Vec3{0, 2, 2}, 1, red_mat));
+    scene.add_object(std::make_unique<Sphere>(Vec3{0, -2, 2}, 1, yellow_mat));
 
     Matrix4x4 proj_matrix {
         Matrix3x3::from_forward_down_vecs(

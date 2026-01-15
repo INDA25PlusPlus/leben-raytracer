@@ -102,7 +102,7 @@ std::string Matrix3x3::debug_string() const {
 
 Matrix3x3 Matrix3x3::from_forward_down_vecs(const Vec3 &forward, const Vec3 &down) {
     const Vec3 right = Vec3::cross(down, forward).norm();
-    return {right, Vec3::cross(forward, right), forward};
+    return {right, Vec3::cross(forward, right).norm(), forward.norm()};
 }
 
 number_t Matrix3x3::det(const Vec3& v1, const Vec3& v2, const Vec3& v3) {
