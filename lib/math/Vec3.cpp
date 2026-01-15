@@ -9,7 +9,7 @@
 #include <bits/max_size_type.h>
 
 const Vec3 Vec3::ZERO = {0, 0, 0};
-const Vec3 Vec3::ONE = {0, 0, 0};
+const Vec3 Vec3::ONE = {1, 1, 1,};
 const Vec3 Vec3::X = {1, 0, 0};
 const Vec3 Vec3::Y = {0, 1, 0};
 const Vec3 Vec3::Z = {0, 0, 1};

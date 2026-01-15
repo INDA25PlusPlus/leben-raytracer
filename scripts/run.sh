@@ -17,6 +17,8 @@ if [[ -f $OUTPUT_PATH ]]; then
     chafa)
       chafa "$OUTPUT_PATH"
       ;;
+    "")
+      ;;
     *)
       >&2 echo "Invalid show mode $SHOW_MODE"
       exit 1

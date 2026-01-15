@@ -5,7 +5,10 @@
 #include "render/RenderBuffer.hpp"
 
 #include <cmath>
+#include <filesystem>
+#include <format>
 
+#include "img/stb_image_write.h"
 #include "render/color.hpp"
 
 
@@ -47,6 +50,9 @@ void RenderBuffer::render(Scene const &scene, Matrix4x4 const &proj_matrix, numb
 
                 // TODO reflection
                 break;
+
+                if (++depth >= MAX_DEPTH)
+                    break;
             }
 
             buffer[index] = wrap(result, 1);
@@ -54,4 +60,31 @@ void RenderBuffer::render(Scene const &scene, Matrix4x4 const &proj_matrix, numb
             index++;
         }
     }
+}
+
+std::string get_valid_path(const std::filesystem::path &path) {
+    const std::string stem = path.stem().string();
+    const std::string extension = path.extension().string();
+    const std::string parent = path.has_parent_path()
+        ? path.parent_path().string() + "/"
+        : "";
+
+    int counter = 0;
+    std::string complete_path = path.string();
+    while (std::filesystem::exists(complete_path)) {
+        complete_path = std::format("{}{}-{}{}", parent, stem, counter, extension);
+        counter++;
+    }
+    return complete_path;
+}
+
+std::string RenderBuffer::write_png(std::string const &output_path) const {
+    const std::filesystem::path path(output_path);
+    if (path.has_parent_path())
+        create_directories(path.parent_path());
+    const std::string valid_path = get_valid_path(path);
+
+    // use external library
+    stbi_write_png(valid_path.c_str(), RES_X, RES_Y, 4, buffer.data(), 0);
+    return valid_path;
 }

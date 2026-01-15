@@ -8,6 +8,7 @@
 // RES_X:               integer
 // RES_Y:               integer
 // MIN_CONTRIBUTION:    floating
+// MAX_DEPTH:           integer
 // DOUBLE_PRECISION:    bool
 
 #ifndef RES_X
@@ -19,7 +20,11 @@
 #endif
 
 #ifndef MIN_CONTRIBUTION
-#define MIN_CONTRIBUTION 0.1
+#define MIN_CONTRIBUTION 0.01
+#endif
+
+#ifndef MAX_DEPTH
+#define MAX_DEPTH 100
 #endif
 
 #ifdef DOUBLE_PRECISION

@@ -11,7 +11,7 @@
 #include "math/Matrix4x4.hpp"
 
 
-#define BUFFER_SIZE (RES_X * RES_Y * SAMPLE_GRID_SIZE * SAMPLE_GRID_SIZE)
+#define BUFFER_SIZE (RES_X * RES_Y)
 
 class RenderBuffer {
     std::array<uint32_t, BUFFER_SIZE> buffer;
