@@ -15,7 +15,10 @@
 RenderBuffer::RenderBuffer() :
     buffer() {}
 
-void RenderBuffer::render(Scene const &scene, Matrix4x4 const &proj_matrix, number_t v_fov) {
+void RenderBuffer::render(Scene const &scene, Matrix4x4 const &proj_matrix, number_t v_fov, std::random_device &rand) {
+    std::mt19937_64 rng{rand()};
+    std::uniform_real_distribution<number_t> uniform_dist(0., 1.);
+
     size_t index = 0;
     for (size_t j = 0; j < RES_Y; j++) {
         number_t v = static_cast<number_t>(j) / RES_Y;
@@ -41,15 +44,28 @@ void RenderBuffer::render(Scene const &scene, Matrix4x4 const &proj_matrix, numb
             while (auto hit = scene.ray_cast(ray)) {
                 auto material = hit->material;
 
-                contribution = contribution * material.color;
-                result = result + contribution * material.emissivity;
+                result = result + contribution * material.emissive_color * material.emissivity;
 
                 contribution = contribution * material.reflectivity;
                 if (contribution.max_component() < MIN_CONTRIBUTION)
                     break;
 
-                // TODO reflection
-                break;
+                Vec3 normal = hit->normal;
+
+                if (uniform_dist(rng) > material.roughness) {
+                    // specular
+
+                    Vec3 comp = normal * Vec3::dot(normal, ray.dir);
+                    Vec3 dir = ray.dir - comp * 2;
+                    ray = {
+                        hit->pos + dir * .00001,
+                        dir
+                    };
+                    contribution = contribution * material.specular_color;
+                } else {
+                    // diffuse
+                    break;
+                }
 
                 if (++depth >= MAX_DEPTH)
                     break;

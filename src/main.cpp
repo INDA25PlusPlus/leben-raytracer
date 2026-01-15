@@ -11,8 +11,12 @@
 #include "scene/Sphere.hpp"
 
 int main() {
-    Material light_mat {{1., 1., 1.}, 0., 1., 0.};
-    Material red_mat {{1., 0., 0.}, .2, 1., .8};
+    Material light_mat {
+        {.8, .8, .8}, 1.,
+        {0., 0., 0.}, {1., 1., 1.}, .8, 0.};
+    Material red_mat {
+        {1., 0., 0.}, 0.1,
+        {1., 0., 0.}, {1., 0., 0.}, .6, .8};
 
     Scene scene;
     scene.add_object(std::make_unique<Plane>(Vec3::Z, light_mat));
@@ -26,8 +30,10 @@ int main() {
         {-5, 0, 2}
     };
 
+    std::random_device device{};
+
     RenderBuffer buffer;
-    buffer.render(scene, proj_matrix, 0.4 * std::numbers::pi);
+    buffer.render(scene, proj_matrix, 0.4 * std::numbers::pi, device);
 
     std::string output_path = buffer.write_png("./out/out.png");
     std::cout << output_path << std::endl;

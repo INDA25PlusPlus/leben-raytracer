@@ -5,6 +5,7 @@
 #pragma once
 #include <array>
 #include <cstdint>
+#include <random>
 
 #include "config.hpp"
 #include "../scene/Scene.hpp"
@@ -19,7 +20,7 @@ class RenderBuffer {
 public:
     RenderBuffer();
 
-    void render(Scene const &scene, Matrix4x4 const &proj_matrix, number_t v_fov);
+    void render(Scene const &scene, Matrix4x4 const &proj_matrix, number_t v_fov, std::random_device &rand);
 
     std::string write_png(std::string const &output_path) const;
 };
