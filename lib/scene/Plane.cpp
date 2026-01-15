@@ -21,7 +21,7 @@ bool Plane::ray_cast(Ray3 const &ray, std::optional<HitInfo> &hit) const {
     // t = (p^2 - f * p)/(d * p)
 
     // denominator == 0 is ok because -inf => no intersection, inf => too far
-    number_t t = Vec3::dot(pos, pos) - Vec3::dot(ray.from, pos) / Vec3::dot(ray.dir, pos);
+    number_t t = (Vec3::dot(pos, pos) - Vec3::dot(ray.from, pos)) / Vec3::dot(ray.dir, pos);
 
     if (t < 0)
         return false;
