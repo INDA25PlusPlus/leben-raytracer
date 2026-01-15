@@ -71,6 +71,10 @@ number_t Vec3::component(Axis axis) const {
     }
 }
 
+number_t Vec3::max_component() const {
+    return std::max(std::max(x, y), z);
+}
+
 number_t Vec3::sq() const {
     return x*x + y*y + z*z;
 }

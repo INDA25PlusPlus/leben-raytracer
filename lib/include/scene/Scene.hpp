@@ -6,7 +6,6 @@
 #include <memory>
 #include <vector>
 
-#include "render/color.hpp"
 #include "scene/SceneObject.hpp"
 
 class Scene {
@@ -17,5 +16,5 @@ public:
 
     void add_object(std::unique_ptr<SceneObject> &&object);
 
-    Color3 ray_cast(Ray3 const &ray);
+    std::optional<HitInfo> ray_cast(Ray3 const &ray) const;
 };

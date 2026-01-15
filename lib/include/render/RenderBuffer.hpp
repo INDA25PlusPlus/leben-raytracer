@@ -14,12 +14,12 @@
 #define BUFFER_SIZE (RES_X * RES_Y * SAMPLE_GRID_SIZE * SAMPLE_GRID_SIZE)
 
 class RenderBuffer {
-    std::array<uint32_t, BUFFER_SIZE> const buffer;
+    std::array<uint32_t, BUFFER_SIZE> buffer;
 
 public:
     RenderBuffer();
 
-    void render(Scene const &scene, Matrix4x4 const &proj_matrix, double v_fov);
+    void render(Scene const &scene, Matrix4x4 const &proj_matrix, number_t v_fov);
 
     std::string write_png(std::string const &output_path) const;
 };

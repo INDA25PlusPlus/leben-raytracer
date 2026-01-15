@@ -36,6 +36,7 @@ struct Vec3 {
     Vec3 operator-() const;
 
     number_t component(Axis axis) const;
+    number_t max_component() const;
 
     number_t sq() const;
     number_t magn() const;

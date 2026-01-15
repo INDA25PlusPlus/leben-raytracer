@@ -5,9 +5,9 @@
 #pragma once
 
 // config options:
-// RES_X:               size_t
-// RES_Y:               size_t
-// SAMPLE_GRID_SIZE:    size_t
+// RES_X:               integer
+// RES_Y:               integer
+// MIN_CONTRIBUTION:    floating
 // DOUBLE_PRECISION:    bool
 
 #ifndef RES_X
@@ -18,8 +18,8 @@
 #define RES_Y 1080
 #endif
 
-#ifndef SAMPLE_GRID_SIZE
-#define SAMPLE_GRID_SIZE 1
+#ifndef MIN_CONTRIBUTION
+#define MIN_CONTRIBUTION 0.1
 #endif
 
 #ifdef DOUBLE_PRECISION

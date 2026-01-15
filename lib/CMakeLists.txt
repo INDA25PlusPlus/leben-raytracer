@@ -7,5 +7,6 @@ add_library(leben_raytracer_lib
         scene/SceneObject.cpp
         scene/Sphere.cpp
         scene/Plane.cpp
+        render/RenderBuffer.cpp
 )
 target_include_directories(leben_raytracer_lib PUBLIC ${PROJECT_SOURCE_DIR}/lib/include)
