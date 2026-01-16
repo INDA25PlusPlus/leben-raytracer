@@ -3,10 +3,13 @@ set -euo pipefail
 
 SHOW_MODE=${1:-}
 
-TARGET=leben_raytracer
-bash ./scripts/build.sh $TARGET
+DIR="$(dirname "$0")"
 
-OUTPUT=$(stdbuf -oL ./build/$TARGET | tee /dev/tty)
+TARGET=leben_raytracer
+bash "$DIR"/build.sh $TARGET
+
+exec 3>&1
+OUTPUT=$(stdbuf -oL "$DIR/../build/$TARGET" | tee >(cat - >&3))
 
 OUTPUT_PATH=$(echo "$OUTPUT" | tail --lines 1)
 if [[ -f $OUTPUT_PATH ]]; then
@@ -16,6 +19,9 @@ if [[ -f $OUTPUT_PATH ]]; then
       ;;
     chafa)
       chafa "$OUTPUT_PATH"
+      ;;
+    path)
+      echo "$OUTPUT_PATH"
       ;;
     "")
       ;;

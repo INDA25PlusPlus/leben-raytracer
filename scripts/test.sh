@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+DIR="$(dirname "$0")"
+
 TARGET=leben_raytracer_test
 
-bash ./scripts/build.sh $TARGET
-./build/$TARGET
+bash "$DIR/build.sh" $TARGET
+"$DIR/../build/$TARGET"
