@@ -5,13 +5,13 @@
 #pragma once
 
 // config options:
-// RES_X:               integer
-// RES_Y:               integer
-// SAMPLE_COUNT:        integer
-// MIN_CONTRIBUTION:    floating
-// MAX_DEPTH:           integer
-// PRINT_PROGRESS:      bool
-// DOUBLE_PRECISION:    bool
+// RES_X:               integer     (output image resolution, x)
+// RES_Y:               integer     (output image resolution, y)
+// SAMPLE_COUNT:        integer     (samples per pixel)
+// MIN_CONTRIBUTION:    floating    (light ray contribution threshold)
+// MAX_DEPTH:           integer     (reflection recursion limit)
+// PRINT_PROGRESS:      bool        (print rendering progress?)
+// DOUBLE_PRECISION:    bool        (use double instead of float?)
 
 #ifndef RES_X
 #define RES_X 1920
@@ -37,7 +37,11 @@
 #define PRINT_PROGRESS true
 #endif
 
-#ifdef DOUBLE_PRECISION
+#ifndef DOUBLE_PRECISION
+#define DOUBLE_PRECISION true
+#endif
+
+#if DOUBLE_PRECISION
 using number_t = double;
 #else
 using number_t = float;
