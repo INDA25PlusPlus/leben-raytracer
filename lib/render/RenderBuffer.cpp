@@ -7,6 +7,7 @@
 #include <cmath>
 #include <filesystem>
 #include <format>
+#include <iostream>
 
 #include "img/stb_image_write.h"
 #include "render/color.hpp"
@@ -38,56 +39,68 @@ void RenderBuffer::render(Scene const &scene, Matrix4x4 const &proj_matrix, numb
 
             Color3 result = Vec3::ZERO;
 
-            Ray3 ray = proj_matrix.apply(Ray3(Vec3::ZERO, screen_space_dir.norm()));
-            size_t depth = 0;
-            Color3 contribution = Vec3::ONE;
-            // we have if let Some(hit) = scene.ray_cast(ray) at home
-            while (auto hit = scene.ray_cast(ray)) {
-                auto material = hit->material;
+            for (size_t sample_index = 0; sample_index < SAMPLE_COUNT; sample_index++) {
+                Ray3 ray = proj_matrix.apply(Ray3(Vec3::ZERO, screen_space_dir.norm()));
+                size_t depth = 0;
+                Color3 contribution = Vec3::ONE;
+                // we have if let Some(hit) = scene.ray_cast(ray) at home
+                while (auto hit = scene.ray_cast(ray)) {
+                    auto material = hit->material;
 
-                result = result + contribution * material.emissive_color * material.emissivity;
+                    result = result + contribution * material.emissive_color * material.emissivity;
 
-                contribution = contribution * material.reflectivity;
-                if (contribution.max_component() < MIN_CONTRIBUTION)
-                    break;
+                    contribution = contribution * material.reflectivity;
+                    if (contribution.max_component() < MIN_CONTRIBUTION)
+                        break;
 
-                Vec3 normal = hit->normal;
+                    Vec3 normal = hit->normal;
 
-                if (uniform_dist(rng) > material.roughness) {
-                    // specular
+                    if (uniform_dist(rng) > material.roughness) {
+                        // specular
 
-                    Vec3 comp = normal * Vec3::dot(normal, ray.dir);
-                    Vec3 dir = ray.dir - comp * 2;
-                    ray = {
-                        hit->pos + dir * .00001,
-                        dir
-                    };
-                    contribution = contribution * material.specular_color;
-                } else {
-                    // diffuse
+                        Vec3 comp = normal * Vec3::dot(normal, ray.dir);
+                        Vec3 dir = ray.dir - comp * 2;
+                        ray = {
+                            hit->pos + dir * .00001,
+                            dir
+                        };
+                        contribution = contribution * material.specular_color;
+                    } else {
+                        // diffuse
 
-                    // random point on semisphere
-                    Vec3 dir = {
-                        normal_dist(rng),
-                        normal_dist(rng),
-                        normal_dist(rng),
-                    };
-                    if (Vec3::dot(dir, normal) < 0)
-                        dir = -dir;
-                    dir = dir.norm();
+                        // random point on semisphere
+                        Vec3 dir = {
+                            normal_dist(rng),
+                            normal_dist(rng),
+                            normal_dist(rng),
+                        };
+                        if (Vec3::dot(dir, normal) < 0)
+                            dir = -dir;
+                        dir = dir.norm();
 
-                    ray = {
-                        hit->pos + dir * .00001,
-                        dir
-                    };
-                    contribution = contribution * material.diffuse_color;
+                        ray = {
+                            hit->pos + dir * .00001,
+                            dir
+                        };
+                        contribution = contribution * material.diffuse_color;
+                    }
+
+                    if (++depth >= MAX_DEPTH)
+                        break;
                 }
-
-                if (++depth >= MAX_DEPTH)
-                    break;
             }
 
-            buffer[index] = wrap(result, 1);
+            buffer[index] = wrap(result, 1. / static_cast<number_t>(SAMPLE_COUNT));
+
+            if constexpr (PRINT_PROGRESS) {
+                std::cout
+                    << std::format(
+                        "{:3.2f}% ({} / {})",
+                        100. * index / (RES_X * RES_Y),
+                        index,
+                        RES_X * RES_Y)
+                    << std::endl;
+            }
 
             index++;
         }
